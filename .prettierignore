@@ -1,0 +1,8 @@
+# database dumps
+*.sql
+
+# IDE specific files
+.idea
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json

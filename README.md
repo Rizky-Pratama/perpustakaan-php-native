@@ -178,9 +178,53 @@ perpustakaan_pwl/
 - Pencarian dan filter data buku
 - Laporan dan statistik perpustakaan
 
+## Konfigurasi Editor & Coding Style
+
+Proyek ini menggunakan beberapa tools untuk menjaga konsistensi kode:
+
+### EditorConfig
+
+File `.editorconfig` mengatur konfigurasi dasar editor seperti indentasi, line ending, dan charset:
+
+- 2 spasi untuk file PHP
+- 2 spasi untuk file CSS/JS/JSON
+- UTF-8 encoding
+- LF line endings
+
+### Prettier
+
+File `.prettierrc` mengatur formatter kode:
+
+- Max line width: 100 karakter
+- Single quotes untuk string
+- Semicolon di akhir statement
+- Konfigurasi khusus untuk PHP
+
+### VSCode Settings
+
+Folder `.vscode` berisi:
+
+- `settings.json`: Konfigurasi editor VSCode
+- `extensions.json`: Rekomendasi ekstensi yang berguna untuk proyek ini
+
+### Cara Penggunaan
+
+1. Install ekstensi EditorConfig dan Prettier di editor Anda
+2. Untuk VSCode, install ekstensi yang direkomendasikan dengan:
+   - Buka Command Palette (Ctrl+Shift+P)
+   - Ketik dan pilih "Extensions: Show Recommended Extensions"
+3. Kode akan diformat secara otomatis saat menyimpan file
+
 ## Kontribusi
 
-Jika Anda ingin berkontribusi pada proyek ini, silakan fork repository dan ajukan pull request. Pastikan untuk mengikuti panduan pengkodean yang telah ditetapkan.
+Jika Anda ingin berkontribusi pada proyek ini:
+
+1. Fork repository
+2. Buat branch fitur baru (`git checkout -b feature/nama-fitur`)
+3. Commit perubahan Anda (`git commit -m 'Menambahkan fitur X'`)
+4. Push ke branch (`git push origin feature/nama-fitur`)
+5. Ajukan Pull Request
+6. Pastikan kode Anda sesuai dengan standar format yang ditentukan
 
 ## Lisensi
 
