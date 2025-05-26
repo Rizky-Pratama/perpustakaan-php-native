@@ -3,7 +3,7 @@
 require_once '../../includes/header.php';
 
 // Query untuk mengambil semua kategori
-$query = "SELECT k.*, COUNT(b.id_buku) as jumlah_buku 
+$query = "SELECT k.*, COUNT(b.id_buku) as jumlah_buku
           FROM kategori k
           LEFT JOIN buku b ON k.id_kategori = b.id_kategori
           GROUP BY k.id_kategori
@@ -80,31 +80,6 @@ if (isset($_SESSION['notification'])) {
                       </a>
                     </td>
                   </tr>
-
-                  <!-- Modal Edit -->
-                  <div class="modal fade" id="editModal<?php echo $row['id_kategori']; ?>" tabindex="-1" aria-labelledby="editModalLabel<?php echo $row['id_kategori']; ?>" aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="editModalLabel<?php echo $row['id_kategori']; ?>">Edit Kategori</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <form action="proses_kategori.php" method="POST">
-                          <div class="modal-body">
-                            <input type="hidden" name="id_kategori" value="<?php echo $row['id_kategori']; ?>">
-                            <div class="mb-3">
-                              <label for="edit_nama_kategori<?php echo $row['id_kategori']; ?>" class="form-label">Nama Kategori</label>
-                              <input type="text" class="form-control" id="edit_nama_kategori<?php echo $row['id_kategori']; ?>" name="nama_kategori" value="<?php echo htmlspecialchars($row['nama_kategori']); ?>" required>
-                            </div>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <button type="submit" name="edit" class="btn btn-primary">Simpan Perubahan</button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
                 <?php endwhile; ?>
               <?php else: ?>
                 <tr>
@@ -118,6 +93,39 @@ if (isset($_SESSION['notification'])) {
     </div>
   </div>
 </div>
+
+<!-- Modal container - ditempatkan di luar tabel -->
+<?php if (mysqli_num_rows($result) > 0): ?>
+  <?php
+  // Reset pointer ke awal hasil query
+  mysqli_data_seek($result, 0);
+  while ($row = mysqli_fetch_assoc($result)): ?>
+    <!-- Modal Edit -->
+    <div class="modal fade" id="editModal<?php echo $row['id_kategori']; ?>" tabindex="-1" aria-labelledby="editModalLabel<?php echo $row['id_kategori']; ?>" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editModalLabel<?php echo $row['id_kategori']; ?>">Edit Kategori</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form action="proses_kategori.php" method="POST">
+            <div class="modal-body">
+              <input type="hidden" name="id_kategori" value="<?php echo $row['id_kategori']; ?>">
+              <div class="mb-3">
+                <label for="edit_nama_kategori<?php echo $row['id_kategori']; ?>" class="form-label">Nama Kategori</label>
+                <input type="text" class="form-control" id="edit_nama_kategori<?php echo $row['id_kategori']; ?>" name="nama_kategori" value="<?php echo htmlspecialchars($row['nama_kategori']); ?>" required>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+              <button type="submit" name="edit" class="btn btn-primary">Simpan Perubahan</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  <?php endwhile; ?>
+<?php endif; ?>
 
 <?php
 // Include footer
