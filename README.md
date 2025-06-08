@@ -1,21 +1,53 @@
-# Sistem Perpustakaan Sederhana
+# Sistem Manajemen Perpustakaan
 
-Aplikasi pengelolaan perpustakaan berbasis web yang dibangun dengan PHP native (tanpa framework) dan MySQL. Aplikasi ini menyediakan fitur manajemen data buku dan kategori dengan antarmuka yang user-friendly.
+Aplikasi ## Struktur Aplikasi
+
+### Role Pengguna
+
+1. **Admin**
+
+   - Mengelola data buku dan kategori
+   - Mengelola data user (tambah, edit, hapus)
+   - Melihat dan mengelola peminjaman semua user
+   - Menandai pengembalian buku
+   - Melihat statistik peminjaman
+
+2. **User**
+   - Melihat katalog buku
+   - Meminjam buku yang tersedia
+   - Mengembalikan buku yang dipinjam
+   - Melihat riwayat peminjaman pribadi
+   - Mengelola profil pribadi
+
+### Struktur Database
+
+- **users** - Data pengguna sistem
+- **buku** - Data buku perpustakaan
+- **kategori** - Kategori buku
+- **peminjaman** - Data peminjaman dan pengembalian buku
+
+### Pendekatan Penggunaan Konstanta untuk Pathgelolaan perpustakaan berbasis web yang dibangun dengan PHP native (tanpa framework) dan MySQL. Aplikasi ini menyediakan fitur manajemen data buku, peminjaman, dan pengguna dengan antarmuka yang user-friendly.
 
 ## Fitur Utama
 
 - **Manajemen Buku**: CRUD (Create, Read, Update, Delete) untuk data buku
 - **Manajemen Kategori**: CRUD untuk kategori buku
+- **Sistem Peminjaman**: Peminjaman dan pengembalian buku dengan perhitungan denda otomatis
+- **Manajemen User**: Admin dan user biasa dengan role-based access control
+- **User Authentication**: Sistem login, register dan manajemen profil
+- **Dashboard Admin**: Panel kontrol untuk admin melihat statistik dan mengelola sistem
 - **Tampilan Responsif**: Dibangun dengan Bootstrap 5 untuk pengalaman pengguna yang baik di berbagai perangkat
 - **Clean Code**: Menggunakan pendekatan konstanta untuk pengelolaan path dan URL
-- **Relasi Database**: Mendukung relasi antara buku dan kategori
+- **Relasi Database**: Mendukung relasi antar tabel untuk integritas data
 
 ## Teknologi yang Digunakan
 
-- **PHP** 7.4+ (Native, tanpa framework)
+- **PHP** 7.4+ (Native, tanpa framework/MVC)
 - **MySQL/MariaDB** untuk database
-- **Bootstrap 5** untuk UI
+- **Bootstrap 5** untuk UI responsif
+- **Bootstrap Icons** untuk ikon UI
 - **JavaScript** untuk interaksi pada sisi klien
+- **Session-based Authentication** untuk manajemen user
 
 ## Cara Instalasi
 

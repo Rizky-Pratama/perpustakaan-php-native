@@ -11,7 +11,7 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 $id_buku = mysqli_real_escape_string($conn, $_GET['id']);
 
 // Query untuk mengambil data buku berdasarkan ID
-$query = "SELECT b.*, k.nama_kategori 
+$query = "SELECT b.*, k.nama_kategori
           FROM buku b
           LEFT JOIN kategori k ON b.id_kategori = k.id_kategori
           WHERE b.id_buku = '$id_buku'";
@@ -64,7 +64,13 @@ $buku = mysqli_fetch_assoc($result);
             </tr>
             <tr>
               <th>Stok</th>
-              <td><?php echo htmlspecialchars($buku['stok']); ?></td>
+              <td>
+                <?php if ($buku['stok'] > 0): ?>
+                  <span class="badge bg-success"><?php echo $buku['stok']; ?> tersedia</span>
+                <?php else: ?>
+                  <span class="badge bg-danger">Tidak tersedia</span>
+                <?php endif; ?>
+              </td>
             </tr>
             <tr>
               <th>Tanggal Input</th>
@@ -74,11 +80,28 @@ $buku = mysqli_fetch_assoc($result);
         </div>
 
         <div class="mt-3">
-          <a href="edit.php?id=<?php echo $buku['id_buku']; ?>" class="btn btn-warning">
-            <i class="bi bi-pencil"></i> Edit
-          </a>
-          <a href="hapus.php?id=<?php echo $buku['id_buku']; ?>" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus buku ini?')">
-            <i class="bi bi-trash"></i> Hapus
+          <?php if (isAdmin()): ?>
+            <a href="edit.php?id=<?php echo $buku['id_buku']; ?>" class="btn btn-warning">
+              <i class="bi bi-pencil"></i> Edit
+            </a>
+            <a href="hapus.php?id=<?php echo $buku['id_buku']; ?>" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus buku ini?')">
+              <i class="bi bi-trash"></i> Hapus
+            </a>
+          <?php elseif (isLoggedIn() && $buku['stok'] > 0): ?>
+            <a href="../peminjaman/pinjam.php?id_buku=<?php echo $buku['id_buku']; ?>" class="btn btn-success">
+              <i class="bi bi-book"></i> Pinjam Buku
+            </a>
+          <?php elseif (isLoggedIn()): ?>
+            <button class="btn btn-secondary" disabled>
+              <i class="bi bi-book"></i> Buku Tidak Tersedia
+            </button>
+          <?php else: ?>
+            <a href="<?php echo BASE_URL; ?>auth/login.php" class="btn btn-primary">
+              <i class="bi bi-box-arrow-in-right"></i> Login untuk Meminjam
+            </a>
+          <?php endif; ?>
+          <a href="index.php" class="btn btn-outline-secondary ms-2">
+            <i class="bi bi-list"></i> Lihat Semua Buku
           </a>
         </div>
       </div>

@@ -24,8 +24,37 @@ CREATE TABLE IF NOT EXISTS buku (
   FOREIGN KEY (id_kategori) REFERENCES kategori(id_kategori) ON DELETE SET NULL
 );
 
+-- Tabel users untuk autentikasi dan role management
+CREATE TABLE IF NOT EXISTS users (
+  id_user INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(50) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  nama_lengkap VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL UNIQUE,
+  role ENUM('admin', 'user') NOT NULL DEFAULT 'user',
+  active BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Tabel peminjaman
+CREATE TABLE IF NOT EXISTS peminjaman (
+  id_peminjaman INT AUTO_INCREMENT PRIMARY KEY,
+  id_user INT NOT NULL,
+  id_buku INT NOT NULL,
+  tanggal_pinjam DATE NOT NULL,
+  tanggal_kembali DATE NOT NULL,
+  status ENUM('menunggu', 'ditolak', 'dipinjam', 'dikembalikan', 'terlambat', 'proses_kembali') NOT NULL DEFAULT 'menunggu',
+  denda DECIMAL(10,2) DEFAULT 0.00,
+  keterangan TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (id_user) REFERENCES users(id_user) ON DELETE CASCADE,
+  FOREIGN KEY (id_buku) REFERENCES buku(id_buku) ON DELETE CASCADE
+);
+
 -- Data awal kategori
-INSERT INTO kategori (nama_kategori) VALUES 
+INSERT INTO kategori (nama_kategori) VALUES
 ('Fiksi'),
 ('Non-Fiksi'),
 ('Pendidikan'),
@@ -38,3 +67,11 @@ INSERT INTO buku (judul, pengarang, penerbit, tahun_terbit, isbn, jumlah_halaman
 ('Bumi Manusia', 'Pramoedya Ananta Toer', 'Lentera Dipantara', 1980, '9789799144850', 535, 5, 1),
 ('Filosofi Teras', 'Henry Manampiring', 'Kompas', 2018, '9786024125189', 320, 8, 2),
 ('Pemrograman PHP', 'John Doe', 'Informatika', 2022, '9781234567890', 450, 15, 4);
+
+-- Admin default dengan password "password"
+INSERT INTO users (username, password, nama_lengkap, email, role) VALUES
+('admin', '$2y$10$ndu62a9Zzr0RMjj8zNwSWOhOwfpZrZfyI7XYVEWAvq3dZKN4BVjJe', 'Administrator', 'admin@perpus.com', 'admin');
+
+-- User default dengan password "password"
+INSERT INTO users (username, password, nama_lengkap, email, role) VALUES
+('user', '$2y$10$ndu62a9Zzr0RMjj8zNwSWOhOwfpZrZfyI7XYVEWAvq3dZKN4BVjJe', 'User Biasa', 'user@perpus.com', 'user');
